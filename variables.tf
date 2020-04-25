@@ -137,6 +137,12 @@ variable "ingress_lb_subnets" {
   default     = []
 }
 
+variable "security_group_attachments" {
+  description = "A list of existing security groups attached to all ec2 instances"
+  type        = list(string)
+  default     = []
+}
+
 variable "ingress_cidr_rules" {
   description = "A list of ingress cidr rules applied to all cluster nodes"
   type        = list(map(string))

@@ -169,7 +169,7 @@ module "etcd_nodes" {
   iam_instance_profile        = ""
   key_name                    = var.key_name
   source_dest_check           = false
-  security_group_attachments  = list(module.etcd_sg.security_group_id, module.all_sg.security_group_id)
+  security_group_attachments  = concat(list(module.etcd_sg.security_group_id, module.all_sg.security_group_id), var.security_group_attachments)
   subnet_ids                  = var.etcd_subnets
   tags                        = var.tags
 }
@@ -187,7 +187,7 @@ module "controlplane_nodes" {
   iam_instance_profile        = module.iam_roles.controlplane.name
   key_name                    = var.key_name
   source_dest_check           = false
-  security_group_attachments  = list(module.controlplane_sg.security_group_id, module.all_sg.security_group_id)
+  security_group_attachments  = concat(list(module.controlplane_sg.security_group_id, module.all_sg.security_group_id), var.security_group_attachments)
   subnet_ids                  = var.controlplane_subnets
   tags                        = var.tags
 }
@@ -205,7 +205,7 @@ module "worker_nodes" {
   iam_instance_profile        = module.iam_roles.worker.name
   key_name                    = var.key_name
   source_dest_check           = false
-  security_group_attachments  = list(module.worker_sg.security_group_id, module.all_sg.security_group_id)
+  security_group_attachments  = concat(list(module.worker_sg.security_group_id, module.all_sg.security_group_id), var.security_group_attachments)
   subnet_ids                  = var.worker_subnets
   tags                        = var.tags
 }
@@ -223,7 +223,7 @@ module "etcd_controlplane_nodes" {
   associate_public_ip_address = false
   iam_instance_profile        = module.iam_roles.controlplane.name
   key_name                    = var.key_name
-  security_group_attachments  = list(module.etcd_sg.security_group_id, module.controlplane_sg.security_group_id, module.all_sg.security_group_id)
+  security_group_attachments  = concat(list(module.etcd_sg.security_group_id, module.controlplane_sg.security_group_id, module.all_sg.security_group_id), var.security_group_attachments)
   subnet_ids                  = var.etcd_controlplane_subnets
   tags                        = var.tags
 }
@@ -241,7 +241,7 @@ module "etcd_controlplane_worker_nodes" {
   associate_public_ip_address = false
   iam_instance_profile        = module.iam_roles.controlplane.name
   key_name                    = var.key_name
-  security_group_attachments  = list(module.etcd_sg.security_group_id, module.controlplane_sg.security_group_id, module.worker_sg.security_group_id, module.all_sg.security_group_id)
+  security_group_attachments  = concat(list(module.etcd_sg.security_group_id, module.controlplane_sg.security_group_id, module.worker_sg.security_group_id, module.all_sg.security_group_id), var.security_group_attachments)
   subnet_ids                  = var.etcd_controlplane_worker_subnets
   tags                        = var.tags
 }

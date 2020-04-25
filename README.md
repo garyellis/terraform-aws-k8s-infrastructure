@@ -48,6 +48,7 @@ terraform v0.12
 | ingress\_lb\_subnets | The ingress lb subnet ids | `list(string)` | `[]` | no |
 | key\_name | n/a | `string` | `""` | no |
 | name | a unique identifier applied to all resources. Is the name prefix when more than one instance of a specific resource type is created | `string` | `"rancher"` | no |
+| security\_group\_attachments | A list of existing security groups attached to all ec2 instances | `list(string)` | `[]` | no |
 | tags | A map of tags on all taggable resources | `map(string)` | `{}` | no |
 | toggle\_allow\_all\_egress | allow ingress all ports and protocols on all cluster nodes | `bool` | `false` | no |
 | toggle\_allow\_all\_ingress | allow ingress all ports and protocols on all cluster nodes | `bool` | `false` | no |
@@ -78,4 +79,3 @@ terraform v0.12
 | ingress\_lb\_zone\_id | n/a |
 | worker\_node\_ips | n/a |
 | worker\_nodes | n/a |
-
