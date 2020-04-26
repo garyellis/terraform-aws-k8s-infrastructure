@@ -170,7 +170,7 @@ module "etcd_nodes" {
   instance_type               = var.etcd_instance_type
   user_data                   = module.userdata.cloudinit_userdata
   associate_public_ip_address = false
-  iam_instance_profile        = ""
+  iam_instance_profile        = module.iam_roles.controlplane.name
   key_name                    = var.key_name
   source_dest_check           = false
   security_group_attachments  = concat(list(module.etcd_sg.security_group_id, module.all_sg.security_group_id), var.security_group_attachments)
