@@ -10,11 +10,18 @@ data "aws_subnet" "ingress_lb_subnets" {
 
 locals {
 
-  #### cloud provider tag
+  #### cloud provider tags
   cluster_id = var.cluster_id == "" ? var.name : var.cluster_id
   cluster_id_tag = {
     format("kubernetes.io/cluster/%s", local.cluster_id) = var.cluster_id_value
   }
+  # empty volume tags allow ec2 instance module to ignore volumes created by aws cloud provider
+  volume_tags = {
+    "kubernetes.io/created-for/pv/name" = "-"
+    "kubernetes.io/created-for/pvc/name" = "-"
+    "kubernetes.io/created-for/pvc/namespace" = "-"
+  }
+
 
   #### security group configuration
 

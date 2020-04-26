@@ -161,7 +161,7 @@ module "userdata" {
 }
 
 module "etcd_nodes" {
-  source = "github.com/garyellis/tf_module_aws_instance?ref=v1.3.1"
+  source = "github.com/garyellis/tf_module_aws_instance?ref=v1.3.2"
 
   name                        = format("%s-etcd", var.name)
   count_instances             = var.etcd_nodes_count
@@ -176,10 +176,11 @@ module "etcd_nodes" {
   security_group_attachments  = concat(list(module.etcd_sg.security_group_id, module.all_sg.security_group_id), var.security_group_attachments)
   subnet_ids                  = var.etcd_subnets
   tags                        = merge(var.tags, local.cluster_id_tag)
+  volume_tags                 = local.volume_tags
 }
 
 module "controlplane_nodes" {
-  source = "github.com/garyellis/tf_module_aws_instance?ref=v1.3.1"
+  source = "github.com/garyellis/tf_module_aws_instance?ref=v1.3.2"
 
   name                        = format("%s-controlplane", var.name)
   count_instances             = var.controlplane_nodes_count
@@ -194,10 +195,11 @@ module "controlplane_nodes" {
   security_group_attachments  = concat(list(module.controlplane_sg.security_group_id, module.all_sg.security_group_id), var.security_group_attachments)
   subnet_ids                  = var.controlplane_subnets
   tags                        = merge(var.tags, local.cluster_id_tag)
+  volume_tags                 = local.volume_tags
 }
 
 module "worker_nodes" {
-  source = "github.com/garyellis/tf_module_aws_instance?ref=v1.3.1"
+  source = "github.com/garyellis/tf_module_aws_instance?ref=v1.3.2"
 
   name                        = format("%s-worker", var.name)
   count_instances             = var.worker_nodes_count
@@ -212,11 +214,12 @@ module "worker_nodes" {
   security_group_attachments  = concat(list(module.worker_sg.security_group_id, module.all_sg.security_group_id), var.security_group_attachments)
   subnet_ids                  = var.worker_subnets
   tags                        = merge(var.tags, local.cluster_id_tag)
+  volume_tags                 = local.volume_tags
 }
 
 #### stacked etcd/controlplane nodes
 module "etcd_controlplane_nodes" {
-  source = "github.com/garyellis/tf_module_aws_instance?ref=v1.3.1"
+  source = "github.com/garyellis/tf_module_aws_instance?ref=v1.3.2"
 
   name                        = format("%s-etcd-controlplane", var.name)
   count_instances             = var.etcd_controlplane_nodes_count
@@ -230,11 +233,12 @@ module "etcd_controlplane_nodes" {
   security_group_attachments  = concat(list(module.etcd_sg.security_group_id, module.controlplane_sg.security_group_id, module.all_sg.security_group_id), var.security_group_attachments)
   subnet_ids                  = var.etcd_controlplane_subnets
   tags                        = merge(var.tags, local.cluster_id_tag)
+  volume_tags                 = local.volume_tags
 }
 
 #### nodes with etcd,controlplane,worker roles
 module "etcd_controlplane_worker_nodes" {
-  source = "github.com/garyellis/tf_module_aws_instance?ref=v1.3.1"
+  source = "github.com/garyellis/tf_module_aws_instance?ref=v1.3.2"
 
   name                        = format("%s-etcd-controlplane-worker", var.name)
   count_instances             = var.etcd_controlplane_worker_nodes_count
@@ -248,4 +252,5 @@ module "etcd_controlplane_worker_nodes" {
   security_group_attachments  = concat(list(module.etcd_sg.security_group_id, module.controlplane_sg.security_group_id, module.worker_sg.security_group_id, module.all_sg.security_group_id), var.security_group_attachments)
   subnet_ids                  = var.etcd_controlplane_worker_subnets
   tags                        = merge(var.tags, local.cluster_id_tag)
+  volume_tags                 = local.volume_tags
 }
