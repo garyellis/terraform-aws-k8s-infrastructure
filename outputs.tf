@@ -6,12 +6,20 @@ output "etcd_node_ips" {
   value = module.etcd_nodes.aws_instance_private_ips
 }
 
+output "etcd_node_private_dns" {
+  value = module.etcd_nodes.aws_instance_private_dns
+}
+
 output "controlplane_nodes" {
   value = module.controlplane_nodes.aws_instances
 }
 
 output "controlplane_node_ips" {
   value = module.controlplane_nodes.aws_instance_private_ips
+}
+
+output "controlplane_node_private_dns" {
+  value = module.controlplane_nodes.aws_instance_private_dns
 }
 
 output "worker_nodes" {
@@ -22,20 +30,32 @@ output "worker_node_ips" {
   value = module.worker_nodes.aws_instance_private_ips
 }
 
+output "worker_node_private_dns" {
+  value = module.worker_nodes.aws_instance_private_dns
+}
+
 output "etcd_controlplane_nodes" {
   value = module.etcd_controlplane_nodes.aws_instances
 }
 
-output "etcd_controlplane_ips" {
+output "etcd_controlplane_node_ips" {
   value = module.etcd_controlplane_nodes.aws_instance_private_ips
+}
+
+output "etcd_controlplane_node_private_dns" {
+  value = module.etcd_controlplane_nodes.aws_instance_private_dns
 }
 
 output "etcd_controlplane_worker_nodes" {
   value = module.etcd_controlplane_worker_nodes.aws_instances
 }
 
-output "etcd_controlplane_worker_ips" {
+output "etcd_controlplane_worker_node_ips" {
   value = module.etcd_controlplane_worker_nodes.aws_instance_private_ips
+}
+
+output "etcd_controlplane_worker_node_private_dns" {
+  value = module.etcd_controlplane_worker_nodes.aws_instance_private_dns
 }
 
 output "apiserver_lb_zone_id" {
