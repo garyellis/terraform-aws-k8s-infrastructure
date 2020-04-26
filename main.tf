@@ -6,6 +6,7 @@ module "etcd_sg" {
   self_security_group_rules    = local.etcd_rules
   ingress_security_group_rules = local.etcd_ingress_sg_rules
   vpc_id                       = var.vpc_id
+  tags                         = var.tags
 }
 
 module "controlplane_sg" {
@@ -18,6 +19,7 @@ module "controlplane_sg" {
   egress_security_group_rules  = local.controlplane_egress_sg_rules
   ingress_cidr_rules           = local.controlplane_ingress_cidr_rules
   vpc_id                       = var.vpc_id
+  tags                         = var.tags
 }
 
 module "worker_sg" {
@@ -29,6 +31,7 @@ module "worker_sg" {
   egress_security_group_rules = local.worker_egress_sg_rules
   ingress_cidr_rules          = local.worker_ingress_cidr_rules
   vpc_id                      = var.vpc_id
+  tags                        = var.tags
 }
 
 module "all_sg" {
@@ -37,6 +40,7 @@ module "all_sg" {
   description = format("%s all roles", var.name)
   name        = format("%s-all", var.name)
   vpc_id      = var.vpc_id
+  tags        = merge(var.tags, local.cluster_id_tag)
   self_security_group_rules = concat(
     local.cni_rules["calico"],
     local.prometheus_rules,
@@ -171,7 +175,7 @@ module "etcd_nodes" {
   source_dest_check           = false
   security_group_attachments  = concat(list(module.etcd_sg.security_group_id, module.all_sg.security_group_id), var.security_group_attachments)
   subnet_ids                  = var.etcd_subnets
-  tags                        = var.tags
+  tags                        = merge(var.tags, local.cluster_id_tag)
 }
 
 module "controlplane_nodes" {
@@ -189,7 +193,7 @@ module "controlplane_nodes" {
   source_dest_check           = false
   security_group_attachments  = concat(list(module.controlplane_sg.security_group_id, module.all_sg.security_group_id), var.security_group_attachments)
   subnet_ids                  = var.controlplane_subnets
-  tags                        = var.tags
+  tags                        = merge(var.tags, local.cluster_id_tag)
 }
 
 module "worker_nodes" {
@@ -207,7 +211,7 @@ module "worker_nodes" {
   source_dest_check           = false
   security_group_attachments  = concat(list(module.worker_sg.security_group_id, module.all_sg.security_group_id), var.security_group_attachments)
   subnet_ids                  = var.worker_subnets
-  tags                        = var.tags
+  tags                        = merge(var.tags, local.cluster_id_tag)
 }
 
 #### stacked etcd/controlplane nodes
@@ -225,7 +229,7 @@ module "etcd_controlplane_nodes" {
   key_name                    = var.key_name
   security_group_attachments  = concat(list(module.etcd_sg.security_group_id, module.controlplane_sg.security_group_id, module.all_sg.security_group_id), var.security_group_attachments)
   subnet_ids                  = var.etcd_controlplane_subnets
-  tags                        = var.tags
+  tags                        = merge(var.tags, local.cluster_id_tag)
 }
 
 #### nodes with etcd,controlplane,worker roles
@@ -243,5 +247,5 @@ module "etcd_controlplane_worker_nodes" {
   key_name                    = var.key_name
   security_group_attachments  = concat(list(module.etcd_sg.security_group_id, module.controlplane_sg.security_group_id, module.worker_sg.security_group_id, module.all_sg.security_group_id), var.security_group_attachments)
   subnet_ids                  = var.etcd_controlplane_worker_subnets
-  tags                        = var.tags
+  tags                        = merge(var.tags, local.cluster_id_tag)
 }

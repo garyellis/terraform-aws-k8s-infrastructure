@@ -29,6 +29,8 @@ terraform v0.12
 | ami\_id | n/a | `string` | `""` | no |
 | ami\_name | n/a | `string` | `""` | no |
 | apiserver\_lb\_subnets | The apiserver lb subnet ids | `list(string)` | `[]` | no |
+| cluster\_id | The kubernetes cluster id for tag kubernetes.io/cluster/{cluster\_id} | `string` | `""` | no |
+| cluster\_id\_value | When vpc network resources are exclusive to the cluster, the value should be owned | `string` | `"shared"` | no |
 | controlplane\_instance\_type | The controlplane nodes ec2 instance type | `string` | `"t3.medium"` | no |
 | controlplane\_nodes\_count | the number of control plane nodes | `number` | `0` | no |
 | controlplane\_subnets | The controlplane nodes subnet ids | `list(string)` | `[]` | no |

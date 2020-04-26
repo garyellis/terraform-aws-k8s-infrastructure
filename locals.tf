@@ -10,6 +10,12 @@ data "aws_subnet" "ingress_lb_subnets" {
 
 locals {
 
+  #### cloud provider tag
+  cluster_id = var.cluster_id == "" ? var.name : var.cluster_id
+  cluster_id_tag = {
+    format("kubernetes.io/cluster/%s", local.cluster_id) = var.cluster_id_value
+  }
+
   #### security group configuration
 
   # computed variables

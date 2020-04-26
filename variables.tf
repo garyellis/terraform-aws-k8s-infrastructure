@@ -4,6 +4,17 @@ variable "name" {
   default     = "rancher"
 }
 
+variable "cluster_id" {
+  description = "The kubernetes cluster id for tag kubernetes.io/cluster/{cluster_id}"
+  type        = string
+  default     = ""
+}
+
+variable "cluster_id_value" {
+  description = "When vpc network resources are exclusive to the cluster, the value should be owned"
+  default     = "shared"
+}
+
 variable "dns_domain_name" {
   description = "the route53 dns domain name"
   type        = string
