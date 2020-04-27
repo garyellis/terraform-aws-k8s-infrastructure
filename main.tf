@@ -168,7 +168,8 @@ module "etcd_nodes" {
   ami_id                      = var.ami_id
   ami_name                    = var.ami_name
   instance_type               = var.etcd_instance_type
-  user_data                   = module.userdata.cloudinit_userdata
+  root_block_device           = var.etcd_root_block_device
+  user_data                   = local.userdata
   associate_public_ip_address = false
   iam_instance_profile        = module.iam_roles.controlplane.name
   key_name                    = var.key_name
@@ -186,8 +187,9 @@ module "controlplane_nodes" {
   count_instances             = var.controlplane_nodes_count
   ami_id                      = var.ami_id
   ami_name                    = var.ami_name
-  user_data                   = module.userdata.cloudinit_userdata
+  user_data                   = local.userdata
   instance_type               = var.controlplane_instance_type
+  root_block_device           = var.controlplane_root_block_device
   associate_public_ip_address = false
   iam_instance_profile        = module.iam_roles.controlplane.name
   key_name                    = var.key_name
@@ -205,8 +207,9 @@ module "worker_nodes" {
   count_instances             = var.worker_nodes_count
   ami_id                      = var.ami_id
   ami_name                    = var.ami_name
-  user_data                   = module.userdata.cloudinit_userdata
+  user_data                   = local.userdata
   instance_type               = var.worker_instance_type
+  root_block_device           = var.worker_root_block_device
   associate_public_ip_address = false
   iam_instance_profile        = module.iam_roles.worker.name
   key_name                    = var.key_name
@@ -225,8 +228,9 @@ module "etcd_controlplane_nodes" {
   count_instances             = var.etcd_controlplane_nodes_count
   ami_id                      = var.ami_id
   ami_name                    = var.ami_name
-  user_data                   = module.userdata.cloudinit_userdata
+  user_data                   = local.userdata
   instance_type               = var.etcd_controlplane_instance_type
+  root_block_device           = var.etcd_controlplane_root_block_device
   associate_public_ip_address = false
   iam_instance_profile        = module.iam_roles.controlplane.name
   key_name                    = var.key_name
@@ -244,8 +248,9 @@ module "etcd_controlplane_worker_nodes" {
   count_instances             = var.etcd_controlplane_worker_nodes_count
   ami_id                      = var.ami_id
   ami_name                    = var.ami_name
-  user_data                   = module.userdata.cloudinit_userdata
+  user_data                   = local.userdata
   instance_type               = var.etcd_controlplane_worker_instance_type
+  root_block_device           = var.etcd_controlplane_worker_root_block_device
   associate_public_ip_address = false
   iam_instance_profile        = module.iam_roles.controlplane.name
   key_name                    = var.key_name

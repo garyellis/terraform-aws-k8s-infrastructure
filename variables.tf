@@ -40,6 +40,12 @@ variable "key_name" {
   type    = string
 }
 
+variable "userdata" {
+  description = "the ec2 instance userdata script. Overrides the default userdata script"
+  type        = string
+  default     = ""
+}
+
 variable "etcd_nodes_count" {
   description = "the number of etcd nodes"
   type        = number
@@ -50,6 +56,16 @@ variable "etcd_instance_type" {
   description = "The etcd nodes ec2 instance type"
   type        = string
   default     = "t3.medium"
+}
+
+variable "etcd_root_block_device" {
+  description = "The etcd nodes root ebs block device config"
+  type        = list(map(string))
+  default = [
+    {
+      volume_size = 40
+    }
+  ]
 }
 
 variable "etcd_subnets" {
@@ -70,6 +86,16 @@ variable "controlplane_instance_type" {
   default     = "t3.medium"
 }
 
+variable "controlplane_root_block_device" {
+  description = "The controlplane nodes root ebs block device config"
+  type        = list(map(string))
+  default = [
+    {
+      volume_size = 40
+    }
+  ]
+}
+
 variable "controlplane_subnets" {
   description = "The controlplane nodes subnet ids"
   type        = list(string)
@@ -88,6 +114,16 @@ variable "worker_instance_type" {
   default     = "t3.medium"
 }
 
+variable "worker_root_block_device" {
+  description = "The worker nodes root ebs block device config"
+  type        = list(map(string))
+  default = [
+    {
+      volume_size = 40
+    }
+  ]
+}
+
 variable "worker_subnets" {
   description = "The worker nodes subnet ids"
   type        = list(string)
@@ -104,6 +140,16 @@ variable "etcd_controlplane_instance_type" {
   description = "The ec2 instance type for stacked etcd/controlplane nodes"
   type        = string
   default     = "t3.large"
+}
+
+variable "etcd_controlplane_root_block_device" {
+  description = "The stacked etcdcontrolplane nodes root ebs block device config"
+  type        = list(map(string))
+  default = [
+    {
+      volume_size = 40
+    }
+  ]
 }
 
 variable "etcd_controlplane_subnets" {
@@ -125,6 +171,16 @@ variable "etcd_controlplane_worker_instance_type" {
   default     = "t3.large"
 }
 
+variable "etcd_controlplane_worker_root_block_device" {
+  description = "The stacked etcd/controlplane/worker nodes root ebs block device config"
+  type        = list(map(string))
+  default = [
+    {
+      volume_size = 60
+    }
+  ]
+}
+
 variable "etcd_controlplane_worker_subnets" {
   description = "The subnet ids for nodes with all roles"
   type        = list(string)
@@ -132,8 +188,8 @@ variable "etcd_controlplane_worker_subnets" {
 }
 
 variable "vpc_id" {
-  type = string
-
+  description = "The target vpc id"
+  type        = string
 }
 
 variable "apiserver_lb_subnets" {
