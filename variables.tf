@@ -40,6 +40,12 @@ variable "key_name" {
   type    = string
 }
 
+variable "source_dest_check" {
+  description = "Enable source dest checking. Dsable for calico cni across multiple subnets"
+  type        = bool
+  default     = true
+}
+
 variable "userdata" {
   description = "the ec2 instance userdata script. Overrides the default userdata script"
   type        = string
@@ -202,6 +208,12 @@ variable "ingress_lb_subnets" {
   description = "The ingress lb subnet ids"
   type        = list(string)
   default     = []
+}
+
+variable "cni" {
+  description = "the intended cluster cni"
+  type        = string
+  default     = "canal"
 }
 
 variable "security_group_attachments" {

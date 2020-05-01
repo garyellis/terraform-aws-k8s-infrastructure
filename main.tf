@@ -42,7 +42,7 @@ module "all_sg" {
   vpc_id      = var.vpc_id
   tags        = merge(var.tags, local.cluster_id_tag)
   self_security_group_rules = concat(
-    local.cni_rules["calico"],
+    local.cni_rules[var.cni],
     local.prometheus_rules,
     list({ desc = "kubelet", from_port = "10250", to_port = "10250", protocol = "tcp" }),
     list({ desc = "apiserver", from_port = "6443", to_port = "6443", protocol = "tcp" }),
@@ -169,11 +169,11 @@ module "etcd_nodes" {
   ami_name                    = var.ami_name
   instance_type               = var.etcd_instance_type
   root_block_device           = var.etcd_root_block_device
+  source_dest_check           = var.source_dest_check
   user_data                   = local.userdata
   associate_public_ip_address = false
   iam_instance_profile        = module.iam_roles.controlplane.name
   key_name                    = var.key_name
-  source_dest_check           = false
   security_group_attachments  = concat(list(module.etcd_sg.security_group_id, module.all_sg.security_group_id), var.security_group_attachments)
   subnet_ids                  = var.etcd_subnets
   tags                        = merge(var.tags, local.cluster_id_tag)
@@ -190,10 +190,10 @@ module "controlplane_nodes" {
   user_data                   = local.userdata
   instance_type               = var.controlplane_instance_type
   root_block_device           = var.controlplane_root_block_device
+  source_dest_check           = var.source_dest_check
   associate_public_ip_address = false
   iam_instance_profile        = module.iam_roles.controlplane.name
   key_name                    = var.key_name
-  source_dest_check           = false
   security_group_attachments  = concat(list(module.controlplane_sg.security_group_id, module.all_sg.security_group_id), var.security_group_attachments)
   subnet_ids                  = var.controlplane_subnets
   tags                        = merge(var.tags, local.cluster_id_tag)
@@ -210,10 +210,10 @@ module "worker_nodes" {
   user_data                   = local.userdata
   instance_type               = var.worker_instance_type
   root_block_device           = var.worker_root_block_device
+  source_dest_check           = var.source_dest_check
   associate_public_ip_address = false
   iam_instance_profile        = module.iam_roles.worker.name
   key_name                    = var.key_name
-  source_dest_check           = false
   security_group_attachments  = concat(list(module.worker_sg.security_group_id, module.all_sg.security_group_id), var.security_group_attachments)
   subnet_ids                  = var.worker_subnets
   tags                        = merge(var.tags, local.cluster_id_tag)
@@ -231,6 +231,7 @@ module "etcd_controlplane_nodes" {
   user_data                   = local.userdata
   instance_type               = var.etcd_controlplane_instance_type
   root_block_device           = var.etcd_controlplane_root_block_device
+  source_dest_check           = var.source_dest_check
   associate_public_ip_address = false
   iam_instance_profile        = module.iam_roles.controlplane.name
   key_name                    = var.key_name
@@ -251,6 +252,7 @@ module "etcd_controlplane_worker_nodes" {
   user_data                   = local.userdata
   instance_type               = var.etcd_controlplane_worker_instance_type
   root_block_device           = var.etcd_controlplane_worker_root_block_device
+  source_dest_check           = var.source_dest_check
   associate_public_ip_address = false
   iam_instance_profile        = module.iam_roles.controlplane.name
   key_name                    = var.key_name

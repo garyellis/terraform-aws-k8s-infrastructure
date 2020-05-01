@@ -31,6 +31,7 @@ terraform v0.12
 | apiserver\_lb\_subnets | The apiserver lb subnet ids | `list(string)` | `[]` | no |
 | cluster\_id | The kubernetes cluster id for tag kubernetes.io/cluster/{cluster\_id} | `string` | `""` | no |
 | cluster\_id\_value | When vpc network resources are exclusive to the cluster, the value should be owned | `string` | `"shared"` | no |
+| cni | the intended cluster cni | `string` | `"canal"` | no |
 | controlplane\_instance\_type | The controlplane nodes ec2 instance type | `string` | `"t3.medium"` | no |
 | controlplane\_nodes\_count | the number of control plane nodes | `number` | `0` | no |
 | controlplane\_root\_block\_device | The controlplane nodes root ebs block device config | `list(map(string))` | <pre>[<br>  {<br>    "volume_size": 40<br>  }<br>]</pre> | no |
@@ -55,6 +56,7 @@ terraform v0.12
 | key\_name | n/a | `string` | `""` | no |
 | name | a unique identifier applied to all resources. Is the name prefix when more than one instance of a specific resource type is created | `string` | `"rancher"` | no |
 | security\_group\_attachments | A list of existing security groups attached to all ec2 instances | `list(string)` | `[]` | no |
+| source\_dest\_check | Enable source dest checking. Dsable for calico cni across multiple subnets | `bool` | `true` | no |
 | tags | A map of tags on all taggable resources | `map(string)` | `{}` | no |
 | toggle\_allow\_all\_egress | allow ingress all ports and protocols on all cluster nodes | `bool` | `false` | no |
 | toggle\_allow\_all\_ingress | allow ingress all ports and protocols on all cluster nodes | `bool` | `false` | no |

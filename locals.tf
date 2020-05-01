@@ -82,6 +82,10 @@ locals {
       { desc = "calico BGP", to_port = 179, from_port = 179, protocol = "tcp" },
       { desc = "calico IP-in-IP", to_port = "-1", from_port = "-1", protocol = "94" },
     ]
+    canal = [
+      { desc = "canal/flannel vxlan overlay", to_port = "8472", from_port = "8472", protocol = "udp" },
+      { desc = "canal/flannel liveness probe", to_port = "9099", from_port = "9099", protocol = "udp" },
+    ]
   }
   prometheus_rules = [
     { desc = "prometheus-kube-scheduler", from_port = "10251", to_port = "10251", protocol = "tcp" },
